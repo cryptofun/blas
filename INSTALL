@@ -1,0 +1,9 @@
+Building BlakeStar
+
+See doc/readme-qt.rst for instructions on building BlakeStar QT,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of BlakeStar.
+
+See doc/build-*.txt for instructions on building BlakeStard,
+the intended-for-services, no-graphical-interface, reference
+implementation of BlakeStar.
