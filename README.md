@@ -14,3 +14,7 @@ BlakeStar offers you a real alternative to the actual centralized banks, and you
 If you want to get involved in Blakestar development community please check documentation.
 
 [Official Blakestar documentation for developers](doc)
+
+## FAQ
+
+http://www.blakestar.io/faq/
