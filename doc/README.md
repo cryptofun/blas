@@ -1,4 +1,4 @@
-BlakeStar 0.4.4 BETA
+# BlakeStar 0.4.4 BETA
 
 Copyright (c) 2013 NovaCoin Developers
 Copyright (c) 2011-2012 PPCoin Developers
@@ -9,10 +9,24 @@ the OpenSSL Toolkit (http://www.openssl.org/).  This product includes
 cryptographic software written by Eric Young (eay@cryptsoft.com).
 
 
-Intro
------
+## Intro
+
 BlakeStar is a free open source project derived from Bitcoin, with
 the goal of providing a long-term energy-efficient scrypt-based crypto-currency.
 Built on the foundation of Bitcoin, PPCoin and NovaCoin, innovations such as proof-of-stake
 help further advance the field of crypto-currency.
 
+## Platforms
+
+
+# *Windows*
+
+Read [Windows build instructions](build-msw.txt)
+
+# *Linux*
+
+ Read [Linux/Unix build instructions](build-unix.txt)
+
+# *OSX*
+
+Read [OSX build instructions](build-osx.txt)
