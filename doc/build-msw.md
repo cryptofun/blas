@@ -39,6 +39,13 @@ Berkeley DB | New BSD license with additional requirement that linked software m
 Boost | MIT-like license | 1.47.0
 miniupnpc | New (3-clause) BSD license | 1.6
 
+### Useful libraries
+
+Name | Instructions | Download
+-----|--------------|---------
+ActivePerl | Typical installation | https://www.activestate.com/activeperl/downloads
+Python | Typical installation + add to PATH | http://www.python.org/ftp/python/3.3.3/python-3.3.3.amd64.msi
+MinGW | Install MSYS shell | https://sourceforge.net/projects/mingw/files/Installer/mingw-get-setup.exe/download
 
 ### OpenSSL
 
