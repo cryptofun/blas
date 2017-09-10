@@ -1,3 +1,5 @@
+# BlakeStar build instructions for Unix/Linux
+
 Copyright (c) 2009-2012 Bitcoin Developers
 Distributed under the MIT/X11 software license, see the accompanying
 file license.txt or http://www.opensource.org/licenses/mit-license.php.
@@ -7,11 +9,7 @@ cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP
 software written by Thomas Bernard.
 
 
-UNIX BUILD NOTES
-================
-
-To Build
---------
+## UNIX BUILD NOTES
 
 cd src/
 make -f makefile.unix            # Headless BlakeStar
@@ -19,16 +17,15 @@ make -f makefile.unix            # Headless BlakeStar
 See readme-qt.rst for instructions on building BlakeStar QT,
 the graphical BlakeStar.
 
-Dependencies
-------------
+## Dependencies
 
- Library     Purpose           Description
- -------     -------           -----------
- libssl      SSL Support       Secure communications
- libdb       Berkeley DB       Blockchain & wallet storage
- libboost    Boost             C++ Library
- miniupnpc   UPnP Support      Optional firewall-jumping support
- libqrencode QRCode generation Optional QRCode generation
+ Library | Purpose | Description
+---------|---------|------------
+ libssl | SSL Support | Secure communications
+ libdb | Berkeley DB | Blockchain & wallet storage
+ libboost | Boost | C++ Library
+ miniupnpc | UPnP Support | Optional firewall-jumping support
+ libqrencode | QRCode generation | Optional QRCode generation
 
 Note that libexecinfo should be installed, if you building under *BSD systems. 
 This library provides backtrace facility.
@@ -59,8 +56,8 @@ Versions used in this release:
  Boost         1.55.0
  miniupnpc     1.9.20140401
 
-Dependency Build Instructions: Ubuntu & Debian
-----------------------------------------------
+## Dependency Build Instructions: Ubuntu & Debian
+
 sudo apt-get install build-essential
 sudo apt-get install libssl-dev
 sudo apt-get install libdb++-dev
@@ -70,8 +67,7 @@ sudo apt-get install libqrencode-dev
 If using Boost 1.37, append -mt to the boost libraries in the makefile.
 
 
-Dependency Build Instructions: Gentoo
--------------------------------------
+## Dependency Build Instructions: Gentoo
 
 emerge -av1 --noreplace boost openssl sys-libs/db
 
@@ -81,14 +77,14 @@ Take the following steps to build (no UPnP support):
  strip BlakeStard
 
 
-Notes
------
+## Notes
+
 The release is built with GCC and then "strip BlakeStard" to strip the debug
 symbols, which reduces the executable size by about 90%.
 
 
-miniupnpc
----------
+## miniupnpc
+
 tar -xzvf miniupnpc-1.6.tar.gz
 cd miniupnpc-1.6
 make
@@ -96,23 +92,23 @@ sudo su
 make install
 
 
-Berkeley DB
------------
+## Berkeley DB
+
 You need Berkeley DB. If you have to build Berkeley DB yourself:
 ../dist/configure --enable-cxx
 make
 
 
-Boost
------
+## Boost
+
 If you need to build Boost yourself:
 sudo su
 ./bootstrap.sh
 ./bjam install
 
 
-Security
---------
+## Security
+
 To help make your BlakeStar installation more secure by making certain attacks impossible to
 exploit even if a vulnerability is found, you can take the following measures:
 
