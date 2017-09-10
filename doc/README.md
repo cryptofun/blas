@@ -21,6 +21,7 @@ help further advance the field of crypto-currency.
 
 # *Windows*
 
+
 Read [Windows build instructions](build-msw.md)
 
 # *Linux*
