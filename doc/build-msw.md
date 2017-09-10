@@ -25,23 +25,19 @@ Note: releases are cross-compiled using mingw running on Linux.
 
 Libraries you need to download separately and build:
 
-                default path               download
-OpenSSL         \openssl-1.0.1b-mgw        http://www.openssl.org/source/  ( https://www.openssl.org/source/old/1.0.1/ )
-Berkeley DB     \db-4.8.30.NC-mgw          http://www.oracle.com/technology/software/products/berkeley-db/index.html ( http://www.oracle.com/technetwork/database/berkeleydb/downloads/index-082944.html )
-Boost           \boost-1.47.0-mgw          http://www.boost.org/users/download/
-miniupnpc       \miniupnpc-1.6-mgw         http://miniupnp.tuxfamily.org/files/
+Dependency|Default path|Download
+----------|------------|--------
+OpenSSL | \openssl-1.0.1b-mgw | http://www.openssl.org/source/  ( https://www.openssl.org/source/old/1.0.1/ )
+Berkeley DB | \db-4.8.30.NC-mgw | http://www.oracle.com/technology/software/products/berkeley-db/index.html ( http://www.oracle.com/technetwork/database/berkeleydb/downloads/index-082944.html )
+Boost | \boost-1.47.0-mgw | http://www.boost.org/users/download/
+miniupnpc | \miniupnpc-1.6-mgw | http://miniupnp.tuxfamily.org/files/
 
-Their licenses:
-OpenSSL        Old BSD license with the problematic advertising requirement
-Berkeley DB    New BSD license with additional requirement that linked software must be free open source
-Boost          MIT-like license
-miniupnpc      New (3-clause) BSD license
-
-Versions used in this release:
-OpenSSL      1.0.1b
-Berkeley DB  4.8.30.NC
-Boost        1.47.0
-miniupnpc    1.6
+Dependency|License|Version used
+----------|-------|------------
+OpenSSL | Old BSD license with the problematic advertising requirement | 1.0.1b
+Berkeley DB | New BSD license with additional requirement that linked software must be free open source | 4.8.30.NC
+Boost | MIT-like license | 1.47.0
+miniupnpc | New (3-clause) BSD license | 1.6
 
 
 ### OpenSSL
