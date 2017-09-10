@@ -1,3 +1,5 @@
+# BlakeStar build instructions for MS Windows
+
 Copyright (c) 2009-2012 Bitcoin Developers
 Distributed under the MIT/X11 software license, see the accompanying
 file license.txt or http://www.opensource.org/licenses/mit-license.php.
@@ -10,17 +12,17 @@ software written by Thomas Bernard.
 See readme-qt.rst for instructions on building BlakeStar QT, the
 graphical user interface.
 
-WINDOWS BUILD NOTES
-===================
+## WINDOWS BUILD NOTES
 
-Compilers Supported
--------------------
+
+### Compilers Supported
+
 TODO: What works?
 Note: releases are cross-compiled using mingw running on Linux.
 
 
-Dependencies
-------------
+### Dependencies
+
 Libraries you need to download separately and build:
 
                 default path               download
@@ -42,8 +44,8 @@ Boost        1.47.0
 miniupnpc    1.6
 
 
-OpenSSL
--------
+### OpenSSL
+
 MSYS shell:
 un-tar sources with MSYS 'tar xfz' to avoid issue with symlinks (OpenSSL ticket 2377)
 change 'MAKE' env. variable from 'C:\MinGW32\bin\mingw32-make.exe' to '/c/MinGW32/bin/mingw32-make.exe'
@@ -52,22 +54,22 @@ cd /c/openssl-1.0.1b-mgw
 ./config
 make
 
-Berkeley DB
------------
+### Berkeley DB
+
 MSYS shell:
 cd /c/db-4.8.30.NC-mgw/build_unix
 sh ../dist/configure --enable-mingw --enable-cxx
 make
 
-Boost
------
+### Boost
+
 DOS prompt:
 downloaded boost jam 3.1.18
 cd \boost-1.47.0-mgw
 bjam toolset=gcc --build-type=complete stage
 
-MiniUPnPc
----------
+### MiniUPnPc
+
 UPnP support is optional, make with USE_UPNP= to disable it.
 
 MSYS shell:
@@ -76,8 +78,8 @@ make -f Makefile.mingw
 mkdir miniupnpc
 cp *.h miniupnpc/
 
-BlakeStar
--------
+### BlakeStar
+
 DOS prompt:
 cd \BlakeStar\src
 mingw32-make -f makefile.mingw
