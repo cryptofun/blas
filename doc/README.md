@@ -21,12 +21,13 @@ help further advance the field of crypto-currency.
 
 # *Windows*
 
-Read [Windows build instructions](build-msw.txt)
+
+Read [Windows build instructions](build-msw.md)
 
 # *Linux*
 
- Read [Linux/Unix build instructions](build-unix.txt)
+ Read [Linux/Unix build instructions](build-unix.md)
 
 # *OSX*
 
-Read [OSX build instructions](build-osx.txt)
+Read [OSX build instructions](build-osx.md)
