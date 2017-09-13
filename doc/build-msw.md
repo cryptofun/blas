@@ -60,30 +60,40 @@ make
 ### Berkeley DB
 
 MSYS shell:
+```
 cd /c/db-4.8.30.NC-mgw/build_unix
 sh ../dist/configure --enable-mingw --enable-cxx
+```
 make
 
 ### Boost
 
 DOS prompt:
+```
 downloaded boost jam 3.1.18
 cd \boost-1.47.0-mgw
 bjam toolset=gcc --build-type=complete stage
+```
 
 ### MiniUPnPc
 
 UPnP support is optional, make with USE_UPNP= to disable it.
 
 MSYS shell:
+
+```
 cd /c/miniupnpc-1.6-mgw
 make -f Makefile.mingw
 mkdir miniupnpc
 cp *.h miniupnpc/
+```
 
 ### BlakeStar
 
 DOS prompt:
+
+```
 cd \BlakeStar\src
 mingw32-make -f makefile.mingw
 strip BlakeStard.exe
+```
