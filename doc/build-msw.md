@@ -27,16 +27,16 @@ Libraries you need to download separately and build:
 
 Dependency|Default path|Download
 ----------|------------|--------
-OpenSSL | \openssl-1.0.1b-mgw | http://www.openssl.org/source/ Alternative: https://www.openssl.org/source/old/1.0.1/
+OpenSSL | \openssl-1.0.1c-mgw | http://www.openssl.org/source/ Alternative: https://www.openssl.org/source/old/1.0.1/
 Berkeley DB | \db-4.8.30.NC-mgw | http://www.oracle.com/technology/software/products/berkeley-db/index.html Alternative: http://www.oracle.com/technetwork/database/berkeleydb/downloads/index-082944.html
-Boost | \boost-1.47.0-mgw | http://www.boost.org/users/download/
+Boost | \boost-1.50.0-mgw | http://www.boost.org/users/download/
 miniupnpc | \miniupnpc-1.6-mgw | http://miniupnp.tuxfamily.org/files/
 
 Dependency|License|Version used
 ----------|-------|------------
-OpenSSL | Old BSD license with the problematic advertising requirement | 1.0.1b
+OpenSSL | Old BSD license with the problematic advertising requirement | 1.0.1c
 Berkeley DB | New BSD license with additional requirement that linked software must be free open source | 4.8.30.NC
-Boost | MIT-like license | 1.47.0
+Boost | MIT-like license | 1.50.0
 miniupnpc | New (3-clause) BSD license | 1.6
 
 ### Useful libraries
@@ -53,7 +53,7 @@ MSYS shell:
 un-tar sources with MSYS 'tar xfz' to avoid issue with symlinks (OpenSSL ticket 2377)
 change 'MAKE' env. variable from 'C:\MinGW32\bin\mingw32-make.exe' to '/c/MinGW32/bin/mingw32-make.exe'
 
-cd /c/openssl-1.0.1b-mgw
+cd /c/openssl-1.0.1c-mgw
 ./config
 make
 
@@ -71,7 +71,7 @@ make
 DOS prompt:
 ```
 downloaded boost jam 3.1.18
-cd \boost-1.47.0-mgw
+cd \boost-1.50.0-mgw
 bjam toolset=gcc --build-type=complete stage
 ```
 
