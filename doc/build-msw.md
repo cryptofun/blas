@@ -53,9 +53,11 @@ MSYS shell:
 un-tar sources with MSYS 'tar xfz' to avoid issue with symlinks (OpenSSL ticket 2377)
 change 'MAKE' env. variable from 'C:\MinGW32\bin\mingw32-make.exe' to '/c/MinGW32/bin/mingw32-make.exe'
 
+```
 cd /c/openssl-1.0.1c-mgw
 ./config
 make
+```
 
 ### Berkeley DB
 
