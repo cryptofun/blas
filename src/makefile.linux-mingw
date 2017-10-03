@@ -17,15 +17,15 @@ USE_WALLET:=1
 INCLUDEPATHS= \
  -I"$(CURDIR)" \
  -I"$(CURDIR)"/obj \
- -I"$(DEPSDIR)/boost_1_55_0" \
- -I"$(DEPSDIR)/db-6.0.20/build_unix" \
- -I"$(DEPSDIR)/openssl-1.0.1f/include" \
+ -I"$(DEPSDIR)/boost_1_63_0" \
+ -I"$(DEPSDIR)/db-5.3.28/build_unix" \
+ -I"$(DEPSDIR)/openssl-1.0.2k/include" \
  -I"$(DEPSDIR)"
 
 LIBPATHS= \
- -L"$(DEPSDIR)/boost_1_55_0/stage/lib" \
- -L"$(DEPSDIR)/db-6.0.20/build_unix" \
- -L"$(DEPSDIR)/openssl-1.0.1f"
+ -L"$(DEPSDIR)/boost_1_63_0/stage/lib" \
+ -L"$(DEPSDIR)/db-5.3.28/build_unix" \
+ -L"$(DEPSDIR)/openssl-1.0.2k"
 
 LIBS= \
  -l boost_system-mt \
@@ -120,6 +120,9 @@ version.cpp: obj/build.h
 DEFS += -DHAVE_BUILD_INFO
 
 obj/%.o: %.cpp $(HEADERS)
+	$(CXX) -c $(CFLAGS) -o $@ $<
+
+obj/%.o: %.c $(HEADERS)
 	$(CXX) -c $(CFLAGS) -o $@ $<
 
 BlakeStard.exe: $(OBJS:obj/%=obj/%)

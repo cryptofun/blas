@@ -103,7 +103,7 @@ public:
 CBlock* CreateNewBlock(CReserveKey& reservekey, bool fProofOfStake, int64_t* pFees)
 {
     // Create new block
-    auto_ptr<CBlock> pblock(new CBlock());
+    std::unique_ptr<CBlock> pblock(new CBlock());
     if (!pblock.get())
         return NULL;
 
@@ -555,7 +555,7 @@ void ThreadStakeMiner(CWallet *pwallet)
         // Create new block
         //
         int64_t nFees;
-        auto_ptr<CBlock> pblock(CreateNewBlock(reservekey, true, &nFees));
+        std::unique_ptr<CBlock> pblock(CreateNewBlock(reservekey, true, &nFees));
         if (!pblock.get())
             return;
 
@@ -605,7 +605,7 @@ void static BitcoinMiner(CWallet *pwallet)
         CBlockIndex* pindexPrev = pindexBest;
 
         int64_t nFees;
-        auto_ptr<CBlock> pblocktemplate(CreateNewBlock(reservekey, false, &nFees));
+        std::unique_ptr<CBlock> pblocktemplate(CreateNewBlock(reservekey, false, &nFees));
         if (!pblocktemplate.get())
             return;
 	CBlock *pblock = pblocktemplate.get();

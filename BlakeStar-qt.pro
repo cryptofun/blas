@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = BlakeStar-qt
-VERSION = 1.0.0.0
+VERSION = 2.0.0.0
 INCLUDEPATH += src src/json src/qt
 DEFINES += ENABLE_WALLET
 QT += core gui network
@@ -12,6 +12,7 @@ CONFIG += thread
 CONFIG += static
 
 QMAKE_CFLAGS += -std=c99
+QMAKE_LFLAGS += -no-pie
 QMAKE_CXXFLAGS += -fpermissive -std=gnu++11
 
 greaterThan(QT_MAJOR_VERSION, 4) {
@@ -67,6 +68,8 @@ QMAKE_LFLAGS *= -fstack-protector-all --param ssp-buffer-size=1
 # We need to exclude this for Windows cross compile with MinGW 4.2.x, as it will result in a non-working executable!
 # This can be enabled for Windows, when we switch to MinGW >= 4.4.x.
 }
+# for extra security (see: https://wiki.debian.org/Hardening): this flag is GCC compiler-specific
+QMAKE_CXXFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -O
 # for extra security on Windows: enable ASLR and DEP via GCC linker flags
 win32:QMAKE_LFLAGS *= -Wl,--dynamicbase -Wl,--nxcompat
 # on win32: enable GCC large address aware linker flag

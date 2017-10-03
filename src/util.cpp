@@ -66,6 +66,11 @@ namespace boost {
 
 using namespace std;
 
+static const char alphanum[] =
+      "0123456789"
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      "abcdefghijklmnopqrstuvwxyz";
+
 map<string, string> mapArgs;
 map<string, vector<string> > mapMultiArgs;
 bool fDebug = false;
@@ -1026,9 +1031,46 @@ boost::filesystem::path GetConfigFile()
 void ReadConfigFile(map<string, string>& mapSettingsRet,
                     map<string, vector<string> >& mapMultiSettingsRet)
 {
+    int confLoop = 0;
+    injectConfig:
     boost::filesystem::ifstream streamConfig(GetConfigFile());
     if (!streamConfig.good())
-        return; // No bitcoin.conf file is OK
+    {
+        boost::filesystem::path ConfPath;
+               ConfPath = GetDataDir() / "BlakeStar.conf";
+               FILE* ConfFile = fopen(ConfPath.string().c_str(), "w");
+               fprintf(ConfFile, "listen=1\n");
+               fprintf(ConfFile, "server=1\n");
+               fprintf(ConfFile, "maxconnections=250\n");
+               fprintf(ConfFile, "rpcuser=yourusername\n");
+
+               char s[33];
+               for (int i = 0; i < 33; ++i)
+               {
+                   s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+               }
+
+               std::string str(s);
+               std::string rpcpass = "rpcpassword=" + str + "\n";
+               fprintf(ConfFile, rpcpass.c_str());
+               fprintf(ConfFile, "port=14442\n");
+               fprintf(ConfFile, "rpcport=14443\n");
+               fprintf(ConfFile, "rpcconnect=127.0.0.1\n");
+               fprintf(ConfFile, "rpcallowip=127.0.0.1\n");
+
+               fclose(ConfFile);
+
+               // Returns our config path, created config file is NOT loaded first time...
+               // Wallet will need to be reloaded before config file is properly read...
+               return ;
+    }
+
+    // loop back and load config for initial generation
+    if (confLoop < 1)
+    {
+        ++confLoop;
+        goto injectConfig;
+    }
 
     set<string> setOptions;
     setOptions.insert("*");

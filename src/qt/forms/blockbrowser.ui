@@ -32,7 +32,7 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>Testcoin Block Explorer</string>
+   <string>BlakeStar Block Explorer</string>
   </property>
   <layout class="QGridLayout">
    <property name="sizeConstraint">

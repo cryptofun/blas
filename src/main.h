@@ -62,12 +62,18 @@ inline int64_t FutureDrift(int64_t nTime, int nHeight) { return nTime + 10 * 60;
 
 inline unsigned int GetTargetSpacing(int nHeight) {return (nHeight >= 0) ? 120 : 120; }  
 
+/** BlakeStar 1.0 */
+inline bool IsBlakeStarV1(int nHeight) { return TestNet() || nHeight > 0; }
+/** BlakeStar 2.0 */
+inline bool IsBlakeStarV2(int64_t nTime) { return TestNet() || nTime > 1509494400; }
+
 extern CScript COINBASE_FLAGS;
 extern CCriticalSection cs_main;
 extern CTxMemPool mempool;
 extern std::map<uint256, CBlockIndex*> mapBlockIndex;
 extern std::set<std::pair<COutPoint, unsigned int> > setStakeSeen;
 extern CBlockIndex* pindexGenesisBlock;
+extern int nStakeMinConfirmations;
 extern unsigned int nStakeMinAge;
 extern unsigned int nNodeLifespan;
 extern int nCoinbaseMaturity;
@@ -131,7 +137,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles);
 bool CheckProofOfWork(uint256 hash, unsigned int nBits);
 unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfStake);
 int64_t GetProofOfWorkReward(int64_t nFees, int nHeight);
-int64_t GetProofOfStakeReward(int64_t nCoinAge, int64_t nFees, int nHeight);
+int64_t GetProofOfStakeReward(const CBlockIndex* pindexPrev, int64_t nCoinAge, int64_t nFees, int nHeight);
 bool IsInitialBlockDownload();
 bool IsConfirmedInNPrevBlocks(const CTxIndex& txindex, const CBlockIndex* pindexFrom, int nMaxDepth, int& nActualDepth);
 std::string GetWarnings(std::string strFor);

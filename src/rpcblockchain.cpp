@@ -289,5 +289,7 @@ Value getcheckpoint(const Array& params, bool fHelp)
     result.push_back(Pair("height", pindexCheckpoint->nHeight));
     result.push_back(Pair("timestamp", DateTimeStrFormat(pindexCheckpoint->GetBlockTime()).c_str()));
 
+    result.push_back(Pair("policy", "rolling"));
+
     return result;
 }
