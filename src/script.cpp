@@ -340,8 +340,8 @@ bool static IsDefinedHashtypeSignature(const valtype &vchSig) {
 }
 
 bool static CheckSignatureEncoding(const valtype &vchSig, unsigned int flags) {
-     // Empty signature. Not strictly DER encoded, but allowed to provide a
-     // compact way to provide an invalid signature for use with CHECK(MULTI)SIG
+    // Empty signature. Not strictly DER encoded, but allowed to provide a
+    // compact way to provide an invalid signature for use with CHECK(MULTI)SIG
     if ((flags & SCRIPT_VERIFY_ALLOW_EMPTY_SIG) && vchSig.size() == 0) {
         return true;
     }

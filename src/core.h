@@ -189,8 +189,8 @@ public:
 
     bool IsUnspendable() const
     {
-         return IsEmpty() ||
-                (scriptPubKey.size() > 0 && *scriptPubKey.begin() == OP_RETURN);
+        return IsEmpty() ||
+               (scriptPubKey.size() > 0 && *scriptPubKey.begin() == OP_RETURN);
     }
 
     friend bool operator==(const CTxOut& a, const CTxOut& b)

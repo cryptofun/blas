@@ -79,7 +79,7 @@ protected:
     string strDataDir;
     vector<CDNSSeedData> vSeeds;
     std::vector<unsigned char> base58Prefixes[MAX_BASE58_TYPES];
-
+    int nLastPOWBlock;
 };
 
 /**

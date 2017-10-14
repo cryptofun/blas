@@ -56,7 +56,6 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Always query for peer addresses via DNS looku
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Sync time with other nodes. Disable if time on your system is precise e.g. "
 "syncing with NTP (default: 1)"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Sync checkpoints policy (default: strict)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Threshold for disconnecting misbehaving peers (default: 100)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Number of seconds to keep misbehaving peers from reconnecting (default: "

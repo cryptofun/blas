@@ -46,8 +46,8 @@ double GetDifficulty(const CBlockIndex* blockindex)
 
 double GetPoWMHashPS()
 {
-//    if (pindexBest->nHeight >= Params().LastPOWBlock())
-//        return 0;
+    if (pindexBest->nHeight >= Params().LastPOWBlock())
+        return 0;
 
     int nPoWInterval = 72;
     int64_t nTargetSpacingWorkMin = 30, nTargetSpacingWork = 30;
@@ -101,7 +101,7 @@ double GetPoSKernelPS()
     if (nStakesTime)
         result = dStakeKernelsTriedAvg / nStakesTime;
 
-    if (IsProtocolV0(nBestHeight))
+    if (IsBlakeStarV2(nBestHeight))
         result *= STAKE_TIMESTAMP_MASK + 1;
 
     return result;

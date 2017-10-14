@@ -45,6 +45,11 @@ unsigned int nStakeMinAge = 1 * 60 * 60; // 1 hour
 unsigned int nModifierInterval = 10 * 60; // time to elapse before new modifier is computed
 
 int nCoinbaseMaturity = 15;
+if (IsBlakeStarV2(nTime))
+    {
+        int nCoinbaseMaturity = 50;
+    }
+
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
 
@@ -349,7 +354,7 @@ bool IsStandardTx(const CTransaction& tx, string& reason)
         }
         if (whichType == TX_NULL_DATA)
             nDataOut++;
-        if (txout.nValue == 0) {
+        else if (txout.nValue == 0) {
             reason = "dust";
             return false;
         }
@@ -953,7 +958,7 @@ uint256 WantedByOrphan(const COrphanBlock* pblockOrphan)
 // Remove a random orphan block (which does not have any dependent orphans).
 void static PruneOrphanBlocks()
 {
-  size_t nMaxOrphanBlocksSize = GetArg("-maxorphanblocksmib", DEFAULT_MAX_ORPHAN_BLOCKS) * ((size_t) 1 << 20);
+    size_t nMaxOrphanBlocksSize = GetArg("-maxorphanblocksmib", DEFAULT_MAX_ORPHAN_BLOCKS) * ((size_t) 1 << 20);
     while (nOrphanBlocksSize > nMaxOrphanBlocksSize)
     {
         // Pick a random orphan block.
@@ -962,20 +967,20 @@ void static PruneOrphanBlocks()
         while (pos--) it++;
 
         // As long as this block has other orphans depending on it, move to one of those successors.
-               do {
-                   std::multimap<uint256, COrphanBlock*>::iterator it2 = mapOrphanBlocksByPrev.find(it->second->hashBlock);
-                   if (it2 == mapOrphanBlocksByPrev.end())
-                       break;
-                   it = it2;
-               } while(1);
+        do {
+            std::multimap<uint256, COrphanBlock*>::iterator it2 = mapOrphanBlocksByPrev.find(it->second->hashBlock);
+            if (it2 == mapOrphanBlocksByPrev.end())
+                break;
+            it = it2;
+        } while(1);
 
-               setStakeSeenOrphan.erase(it->second->stake);
-                    uint256 hash = it->second->hashBlock;
-                    nOrphanBlocksSize -= it->second->vchBlock.size();
-                    delete it->second;
-                    mapOrphanBlocksByPrev.erase(it);
-                    mapOrphanBlocks.erase(hash);
-                }
+        setStakeSeenOrphan.erase(it->second->stake);
+        uint256 hash = it->second->hashBlock;
+        nOrphanBlocksSize -= it->second->vchBlock.size();
+        delete it->second;
+        mapOrphanBlocksByPrev.erase(it);
+        mapOrphanBlocks.erase(hash);
+    }
 }
 
 static CBigNum GetProofOfStakeLimit(int nHeight)
@@ -996,6 +1001,10 @@ int64_t GetProofOfWorkReward(int64_t nFees, int nHeight)
     {
         nSubsidy = 240 * COIN;
     }
+    if (IsBlakeStarV2(nHeight))
+    {
+       nSubsidy = 0 * COIN;
+    }
 
     LogPrint("creation", "GetProofOfWorkReward() : create=%s nSubsidy=%d nHeight=%d\n", FormatMoney(nSubsidy), nSubsidy, nHeight);
 
@@ -1008,10 +1017,16 @@ int64_t GetProofOfStakeReward(const CBlockIndex* pindexPrev, int64_t nCoinAge, i
  //   int64_t nSubsidy = 350 * COIN;
 
     int64_t nRewardCoinYear;
+    int64_t nRewardCoinYear2;
 
     nRewardCoinYear = COIN_YEAR_REWARD;
+    nRewardCoinYear2 = COIN_YEAR_REWARD2;
 
-    int64_t nSubsidy = nCoinAge * nRewardCoinYear / 365 / COIN;
+    int64_t nSubsidy;
+    if (IsBlakeStarV2(pindexPrev->nTime))
+        nSubsidy += nCoinAge * nRewardCoinYear2 / 365 / COIN;
+    else
+        nSubsidy += nCoinAge * nRewardCoinYear / 365 / COIN;
 
 
     LogPrint("creation", "GetProofOfStakeReward(): create=%s nCoinAge=%d nHeight=%d\n", FormatMoney(nSubsidy), nCoinAge, nHeight);
@@ -1126,16 +1141,16 @@ void CBlock::UpdateTime(const CBlockIndex* pindexPrev)
 
 bool IsConfirmedInNPrevBlocks(const CTxIndex& txindex, const CBlockIndex* pindexFrom, int nMaxDepth, int& nActualDepth)
 {
-     for (const CBlockIndex* pindex = pindexFrom; pindex && pindexFrom->nHeight - pindex->nHeight < nMaxDepth; pindex = pindex->pprev)
-     {
-         if (pindex->nBlockPos == txindex.pos.nBlockPos && pindex->nFile == txindex.pos.nFile)
-         {
-             nActualDepth = pindexFrom->nHeight - pindex->nHeight;
-             return true;
-         }
-     }
+    for (const CBlockIndex* pindex = pindexFrom; pindex && pindexFrom->nHeight - pindex->nHeight < nMaxDepth; pindex = pindex->pprev)
+    {
+        if (pindex->nBlockPos == txindex.pos.nBlockPos && pindex->nFile == txindex.pos.nFile)
+        {
+            nActualDepth = pindexFrom->nHeight - pindex->nHeight;
+            return true;
+        }
+    }
 
-     return false;
+    return false;
 }
 
 bool CTransaction::DisconnectInputs(CTxDB& txdb)
@@ -2202,14 +2217,16 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
         }
     }
 
-//    if (!IsCanonicalBlockSignature(pblock, false)) {
-//        if (pfrom && pfrom->nVersion >= CANONICAL_BLOCK_SIG_VERSION) {
-//            pfrom->Misbehaving(100);
-//        }
-//
-//        return error("ProcessBlock(): bad block signature encoding");
-//    }
-//
+    if (!IsCanonicalBlockSignature(pblock, false)) {
+        if (pfrom && pfrom->nVersion >= CANONICAL_BLOCK_SIG_VERSION) {
+            pfrom->Misbehaving(100);
+        }
+
+        return error("ProcessBlock(): bad block signature encoding");
+    } else if (!ReserealizeBlockSignature(pblock)) {
+              LogPrintf("WARNING: ProcessBlock() : ReserealizeBlockSignature FAILED\n");
+        }
+
 //    if (!IsCanonicalBlockSignature(pblock, true)) {
 //        if (pfrom && pfrom->nVersion >= CANONICAL_BLOCK_SIG_LOW_S_VERSION) {
 //            pfrom->Misbehaving(100);
@@ -2376,24 +2393,24 @@ bool CBlock::CheckBlockSignature() const
     }
     else
     {
-         // Block signing key also can be encoded in the nonspendable output
-         // This allows to not pollute UTXO set with useless outputs e.g. in case of multisig staking
+        // Block signing key also can be encoded in the nonspendable output
+        // This allows to not pollute UTXO set with useless outputs e.g. in case of multisig staking
 
-         const CScript& script = txout.scriptPubKey;
-         CScript::const_iterator pc = script.begin();
-         opcodetype opcode;
-         valtype vchPushValue;
+        const CScript& script = txout.scriptPubKey;
+        CScript::const_iterator pc = script.begin();
+        opcodetype opcode;
+        valtype vchPushValue;
 
-         if (!script.GetOp(pc, opcode, vchPushValue))
-             return false;
-         if (opcode != OP_RETURN)
-             return false;
-         if (!script.GetOp(pc, opcode, vchPushValue))
-             return false;
-         if (!IsCompressedOrUncompressedPubKey(vchPushValue))
-             return false;
-         return CPubKey(vchPushValue).Verify(GetHash(), vchBlockSig);
-     }
+        if (!script.GetOp(pc, opcode, vchPushValue))
+            return false;
+        if (opcode != OP_RETURN)
+            return false;
+        if (!script.GetOp(pc, opcode, vchPushValue))
+            return false;
+        if (!IsCompressedOrUncompressedPubKey(vchPushValue))
+            return false;
+        return CPubKey(vchPushValue).Verify(GetHash(), vchBlockSig);
+    }
 
     return false;
 }

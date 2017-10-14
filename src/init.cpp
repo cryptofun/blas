@@ -14,7 +14,6 @@
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #include "walletdb.h"
-#include "miner.h"
 #endif
 
 #include <boost/filesystem.hpp>
@@ -109,7 +108,6 @@ void Shutdown()
 #ifdef ENABLE_WALLET
     if (pwalletMain)
         bitdb.Flush(true);
-    GenerateBitcoins(false, NULL, 0);
 #endif
     boost::filesystem::remove(GetPidFile());
     UnregisterAllWallets();
@@ -164,7 +162,6 @@ std::string HelpMessage()
     strUsage += "  -?                     " + _("This help message") + "\n";
     strUsage += "  -conf=<file>           " + _("Specify configuration file (default: BlakeStar.conf)") + "\n";
     strUsage += "  -pid=<file>            " + _("Specify pid file (default: BlakeStard.pid)") + "\n";
-    strUsage += " -gen " + _("Generate coins (default: 0)") + "\n";
     strUsage += "  -datadir=<dir>         " + _("Specify data directory") + "\n";
     strUsage += "  -wallet=<dir>          " + _("Specify wallet file (within data directory)") + "\n";
     strUsage += "  -dbcache=<n>           " + _("Set database cache size in megabytes (default: 25)") + "\n";
@@ -838,12 +835,6 @@ bool AppInit2(boost::thread_group& threadGroup)
         LogPrintf("Staking disabled\n");
     else if (pwalletMain)
         threadGroup.create_thread(boost::bind(&ThreadStakeMiner, pwalletMain));
-#endif
-
-#ifdef ENABLE_WALLET
-    // Generate coins in the background
-    if (pwalletMain)
-        GenerateBitcoins(GetBoolArg("-gen", false), pwalletMain, GetArg("-genproclimit", -1));
 #endif
 
     // ********************************************************* Step 12: finished

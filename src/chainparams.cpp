@@ -117,6 +117,7 @@ public:
 
         convertSeed6(vFixedSeeds, pnSeed6_main, ARRAYLEN(pnSeed6_main));
 
+        nLastPOWBlock = 150000;
     }
 
     virtual const CBlock& GenesisBlock() const { return genesis; }
@@ -197,6 +198,7 @@ public:
 
         convertSeed6(vFixedSeeds, pnSeed6_test, ARRAYLEN(pnSeed6_test));
 
+        nLastPOWBlock = 0x7fffffff;
     }
     virtual Network NetworkID() const { return CChainParams::TESTNET; }
 };
