@@ -44,12 +44,7 @@ int nStakeMinConfirmations = 500;
 unsigned int nStakeMinAge = 1 * 60 * 60; // 1 hour
 unsigned int nModifierInterval = 10 * 60; // time to elapse before new modifier is computed
 
-int nCoinbaseMaturity = 15;
-if (IsBlakeStarV2(nTime))
-    {
-        int nCoinbaseMaturity = 50;
-    }
-
+int nCoinbaseMaturity = 50;
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
 
@@ -2057,8 +2052,8 @@ bool CBlock::AcceptBlock()
     else if (!IsBlakeStarV2(nHeight) && nVersion > 7)
         return DoS(100, error("AcceptBlock() : reject too new nVersion = %d", nVersion));
 
-//    if (IsProofOfWork() && nHeight > Params().LastPOWBlock())
-//        return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
+    if (IsProofOfWork() && nHeight > Params().LastPOWBlock())
+        return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
 
     // Check coinbase timestamp
     if(IsProtocolV0(nHeight))
@@ -2178,14 +2173,14 @@ void PushGetBlocks(CNode* pnode, CBlockIndex* pindexBegin, uint256 hashEnd)
     pnode->PushMessage("getblocks", CBlockLocator(pindexBegin), hashEnd);
 }
 
-//bool static IsCanonicalBlockSignature(CBlock* pblock, bool checkLowS)
-//{
-//    if (pblock->IsProofOfWork()) {
-//        return pblock->vchBlockSig.empty();
-//    }
-//
-//    return checkLowS ? IsLowDERSignature(pblock->vchBlockSig, false) : IsDERSignature(pblock->vchBlockSig, false);
-//}
+bool static IsCanonicalBlockSignature(CBlock* pblock, bool checkLowS)
+{
+    if (pblock->IsProofOfWork()) {
+        return pblock->vchBlockSig.empty();
+    }
+
+    return IsDERSignature(pblock->vchBlockSig, false);
+}
 
 bool ProcessBlock(CNode* pfrom, CBlock* pblock)
 {
@@ -2223,8 +2218,6 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
         }
 
         return error("ProcessBlock(): bad block signature encoding");
-    } else if (!ReserealizeBlockSignature(pblock)) {
-              LogPrintf("WARNING: ProcessBlock() : ReserealizeBlockSignature FAILED\n");
         }
 
 //    if (!IsCanonicalBlockSignature(pblock, true)) {
