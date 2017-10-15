@@ -1,6 +1,6 @@
 TEMPLATE = app
-TARGET = BlakeStar-qt
-VERSION = 2.1.0.0
+TARGET = BlakeStar
+VERSION = 2.1.2.0
 INCLUDEPATH += src src/json src/qt
 DEFINES += ENABLE_WALLET
 QT += core gui network
@@ -432,7 +432,7 @@ macx:OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm
 macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit
 macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
 macx:ICON = src/qt/res/icons/BlakeStar.icns
-macx:TARGET = "BlakeStar-Qt"
+macx:TARGET = "BlakeStar"
 macx:QMAKE_CFLAGS_THREAD += -pthread
 macx:QMAKE_LFLAGS_THREAD += -pthread
 macx:QMAKE_CXXFLAGS_THREAD += -pthread
