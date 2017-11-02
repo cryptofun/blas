@@ -996,7 +996,11 @@ int64_t GetProofOfWorkReward(int64_t nFees, int nHeight)
     {
         nSubsidy = 240 * COIN;
     }
-    if (IsBlakeStarV2(nHeight))
+    else if(IsBlakeStarV2(nHeight))
+    {
+       nSubsidy = 0 * COIN;
+    }
+    else if(pindexBest->nHeight > IsBlakeStarV2Fixed(nHeight))
     {
        nSubsidy = 0 * COIN;
     }
@@ -1018,10 +1022,10 @@ int64_t GetProofOfStakeReward(const CBlockIndex* pindexPrev, int64_t nCoinAge, i
     nRewardCoinYear2 = COIN_YEAR_REWARD2;
 
     int64_t nSubsidy;
-    if (IsBlakeStarV2(pindexPrev->nTime))
-        nSubsidy += nCoinAge * nRewardCoinYear2 / 365 / COIN;
+    if(IsBlakeStarV2(pindexPrev->nTime))
+        nSubsidy = nCoinAge * nRewardCoinYear2 / 365 / COIN;
     else
-        nSubsidy += nCoinAge * nRewardCoinYear / 365 / COIN;
+        nSubsidy = nCoinAge * nRewardCoinYear / 365 / COIN;
 
 
     LogPrint("creation", "GetProofOfStakeReward(): create=%s nCoinAge=%d nHeight=%d\n", FormatMoney(nSubsidy), nCoinAge, nHeight);

@@ -67,6 +67,7 @@ inline unsigned int GetTargetSpacing(int nHeight) {return (nHeight >= 0) ? 120 :
 inline bool IsBlakeStarV1(int nHeight) { return TestNet() || nHeight > 0; }
 /** BlakeStar 2.0 */
 inline bool IsBlakeStarV2(int64_t nTime) { return TestNet() || nTime > 1509494400; }
+inline bool IsBlakeStarV2Fixed(int64_t nTime) { return TestNet() || nTime > 1509710400; }
 
 extern CScript COINBASE_FLAGS;
 extern CCriticalSection cs_main;

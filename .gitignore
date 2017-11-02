@@ -16,6 +16,7 @@ src/build.h
 .qmake.stash
 Makefile
 BlakeStar-qt
+BlakeStar
 #resources cpp
 qrc_*.cpp
 #qt creator
