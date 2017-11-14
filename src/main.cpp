@@ -992,9 +992,13 @@ int64_t GetProofOfWorkReward(int64_t nFees, int nHeight)
     {
         nSubsidy = 240000000 * COIN;
     }
-    else if(pindexBest->nHeight > 60 && nHeight < IsBlakeStarV2ChainFix(nHeight))
+    else if(pindexBest->nHeight > 60)
     {
         nSubsidy = 240 * COIN;
+    }
+    else if(pindexBest->nHeight > IsBlakeStarV2ChainFix(nHeight))
+    {
+        nSubsidy = 0 * COIN;
     }
     LogPrint("creation", "GetProofOfWorkReward() : create=%s nSubsidy=%d nHeight=%d\n", FormatMoney(nSubsidy), nSubsidy, nHeight);
 
