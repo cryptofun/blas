@@ -32,7 +32,6 @@
 #include "wallet.h"
 #include "init.h"
 #include "ui_interface.h"
-#include "miner.h"
 #include "blockbrowser.h"
 
 #ifdef Q_OS_MAC
@@ -79,10 +78,10 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     aboutQtAction(0),
     trayIcon(0),
     notificator(0),
+    blockBrowser(0),
     rpcConsole(0),
     prevBlocks(0),
-    nWeight(0),
-    blockBrowser(0)
+    nWeight(0)
 {
     resize(710, 540);
     setWindowTitle(tr("BlakeStar Core") + " - " + tr("Wallet"));
@@ -209,12 +208,11 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     // Double-clicking on a transaction on the transaction history page shows details
     connect(transactionView, SIGNAL(doubleClicked(QModelIndex)), transactionView, SLOT(showDetails()));
 
-    rpcConsole = new RPCConsole(this);
-    connect(openRPCConsoleAction, SIGNAL(triggered()), rpcConsole, SLOT(show()));
-
     blockBrowser = new BlockBrowser(this);
     connect(blockAction, SIGNAL(triggered()), blockBrowser, SLOT(show()));
 
+    rpcConsole = new RPCConsole(this);
+    connect(openRPCConsoleAction, SIGNAL(triggered()), rpcConsole, SLOT(show()));
     // prevents an oben debug window from becoming stuck/unusable on client shutdown
     connect(quitAction, SIGNAL(triggered()), rpcConsole, SLOT(hide()));
 
@@ -311,11 +309,12 @@ void BitcoinGUI::createActions()
 
     exportAction = new QAction(QIcon(":/icons/export"), tr("&Export..."), this);
     exportAction->setToolTip(tr("Export the data in the current tab to a file"));
-    openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
-    openRPCConsoleAction->setToolTip(tr("Open debugging and diagnostic console"));
 
     blockAction = new QAction(QIcon(":/icons/blockbrowser"), tr("&Block Browser"), this);
     blockAction->setToolTip(tr("Explore the BlockChain"));
+
+    openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
+    openRPCConsoleAction->setToolTip(tr("Open debugging and diagnostic console"));
 
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
@@ -393,15 +392,6 @@ void BitcoinGUI::createToolBars()
     toolbar->addAction(openRPCConsoleAction);
 
     toolbar->addWidget(makeToolBarSpacer());
-
-    QWidget* mineWidget = new QWidget();
-    mineWidget->setMinimumSize(160,40);
-    mineWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    mineWidget->setObjectName("mineWidget");
-    mineWidget->setStyleSheet("#mineWidget");
-    QVBoxLayout *mbox = new QVBoxLayout();
-    mineWidget->setLayout(mbox);
-    toolbar->addWidget(mineWidget);
 
     toolbar->setOrientation(Qt::Vertical);
     toolbar->setMovable(false);

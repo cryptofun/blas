@@ -16,8 +16,8 @@ class AddressBookPage;
 class SendCoinsDialog;
 class SignVerifyMessageDialog;
 class Notificator;
-class RPCConsole;
 class BlockBrowser;
+class RPCConsole;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -99,15 +99,15 @@ private:
     QAction *unlockWalletAction2;
     QAction *lockWalletAction2;
     QAction *aboutQtAction;
-    QAction *openRPCConsoleAction;
     QAction *blockAction;
+    QAction *openRPCConsoleAction;
     QPushButton *stakingButton;
 
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
     TransactionView *transactionView;
-    RPCConsole *rpcConsole;
     BlockBrowser *blockBrowser;
+    RPCConsole *rpcConsole;
 
     QMovie *syncIconMovie;
     /** Keep track of previous number of blocks, to detect progress */
