@@ -30,7 +30,6 @@ namespace Checkpoints
          ( 0,   uint256("0x00000040cc36d5f0dc9054d8b002f1bf1a1fbd1ca48065770d7db3d512422bd4") )
     ;
 
-
     // TestNet has no checkpoints
     static MapCheckpoints mapCheckpointsTestnet;
 

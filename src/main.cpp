@@ -992,19 +992,10 @@ int64_t GetProofOfWorkReward(int64_t nFees, int nHeight)
     {
         nSubsidy = 240000000 * COIN;
     }
-    else if(pindexBest->nHeight > 60)
+    else if(pindexBest->nHeight > 60 && nHeight < IsBlakeStarV3(nHeight))
     {
         nSubsidy = 240 * COIN;
     }
-    else if(IsBlakeStarV2(nHeight))
-    {
-       nSubsidy = 0 * COIN;
-    }
-    else if(pindexBest->nHeight > IsBlakeStarV2Fixed(nHeight))
-    {
-       nSubsidy = 0 * COIN;
-    }
-
     LogPrint("creation", "GetProofOfWorkReward() : create=%s nSubsidy=%d nHeight=%d\n", FormatMoney(nSubsidy), nSubsidy, nHeight);
 
     return nSubsidy + nFees;
@@ -1022,7 +1013,9 @@ int64_t GetProofOfStakeReward(const CBlockIndex* pindexPrev, int64_t nCoinAge, i
     nRewardCoinYear2 = COIN_YEAR_REWARD2;
 
     int64_t nSubsidy;
-    if(IsBlakeStarV2(pindexPrev->nTime))
+    if(IsBlakeStarV3(pindexPrev->nHeight))
+        nSubsidy = nCoinAge * nRewardCoinYear2 * 33 / (365 * 33 + 8);
+    else if(IsBlakeStarV2(pindexPrev->nTime))
         nSubsidy = nCoinAge * nRewardCoinYear2 / 365 / COIN;
     else
         nSubsidy = nCoinAge * nRewardCoinYear / 365 / COIN;
@@ -2183,7 +2176,7 @@ bool static IsCanonicalBlockSignature(CBlock* pblock, bool checkLowS)
         return pblock->vchBlockSig.empty();
     }
 
-    return IsDERSignature(pblock->vchBlockSig, false);
+    return checkLowS ? IsLowDERSignature(pblock->vchBlockSig, false) : IsDERSignature(pblock->vchBlockSig, false);
 }
 
 bool ProcessBlock(CNode* pfrom, CBlock* pblock)
@@ -2222,17 +2215,17 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
         }
 
         return error("ProcessBlock(): bad block signature encoding");
+    }
+
+    if (!IsCanonicalBlockSignature(pblock, true)) {
+        if (pfrom && pfrom->nVersion >= CANONICAL_BLOCK_SIG_LOW_S_VERSION) {
+            pfrom->Misbehaving(100);
+            return error("ProcessBlock(): bad block signature encoding (low-s)");
         }
 
-//    if (!IsCanonicalBlockSignature(pblock, true)) {
-//        if (pfrom && pfrom->nVersion >= CANONICAL_BLOCK_SIG_LOW_S_VERSION) {
-//            pfrom->Misbehaving(100);
-//            return error("ProcessBlock(): bad block signature encoding (low-s)");
-//        }
-//
-//        if (!EnsureLowS(pblock->vchBlockSig))
-//            return error("ProcessBlock(): EnsureLowS failed");
-//    }
+        if (!EnsureLowS(pblock->vchBlockSig))
+            return error("ProcessBlock(): EnsureLowS failed");
+    }
 
     // Preliminary checks
     if (!pblock->CheckBlock())
@@ -2793,12 +2786,12 @@ void static ProcessGetData(CNode* pfrom)
                 {
                     CBlock block;
                     block.ReadFromDisk((*mi).second);
-//
-//                    // previous versions could accept sigs with high s
-//                    if (!IsCanonicalBlockSignature(&block, true)) {
-//                        bool ret = EnsureLowS(block.vchBlockSig);
-//                        assert(ret);
-//                    }
+
+                    // previous versions could accept sigs with high s
+                    if (!IsCanonicalBlockSignature(&block, true)) {
+                        bool ret = EnsureLowS(block.vchBlockSig);
+                        assert(ret);
+                    }
 
                     pfrom->PushMessage("block", block);
 

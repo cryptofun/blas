@@ -312,8 +312,8 @@ bool IsDERSignature(const valtype &vchSig, bool haveHashType) {
     return true;
 }
 
-bool static IsLowDERSignature(const valtype &vchSig) {
-     if (!IsDERSignature(vchSig)) {
+bool IsLowDERSignature(const valtype &vchSig, bool haveHashType) {
+    if (!IsDERSignature(vchSig, haveHashType)) {
         return false;
     }
     unsigned int nLenR = vchSig[3];
@@ -442,7 +442,7 @@ bool EvalScript(vector<vector<unsigned char> >& stack, const CScript& script, co
                 opcode == OP_MOD ||
                 opcode == OP_LSHIFT ||
                 opcode == OP_RSHIFT)
-                return false;
+                return false; // Disabled opcodes.
 
             if (fExec && 0 <= opcode && opcode <= OP_PUSHDATA4)
                 stack.push_back(vchPushValue);
