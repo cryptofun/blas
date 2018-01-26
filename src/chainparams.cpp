@@ -72,42 +72,12 @@ public:
         genesis.nBits    = bnProofOfWorkLimit.GetCompact();
         genesis.nNonce   = 4248725;
 
-		
-        //// debug print
-		// hashGenesisBlock == uint256("0x01");
-        if (false && (genesis.GetHash() != hashGenesisBlock))
-        {
-            uint256 hashTarget = CBigNum().SetCompact(genesis.nBits).getuint256();
-            while (genesis.GetHash() > hashTarget)
-            {
-                ++genesis.nNonce;
-                if (genesis.nNonce == 0)
-                {
-                    printf("NONCE WRAPPED, incrementing time");
-                    ++genesis.nTime;
-                }
-            }
-            cout << "mainnet.genesis : \n" << genesis.ToString() << endl;
-            cout << "mainnet.genesis.GetHash(): " << genesis.GetHash().ToString() << endl;
-            cout << "mainnet.genesis.hashMerkleRoot: " << genesis.hashMerkleRoot.ToString() << endl;
-            cout << "mainnet.genesis.nTime: " << genesis.nTime << endl;
-            cout << "mainnet.genesis.nNonce: " << genesis.nNonce << endl;
-        }
+        hashGenesisBlock = genesis.GetHash();
+        assert(hashGenesisBlock == uint256("0x00000040cc36d5f0dc9054d8b002f1bf1a1fbd1ca48065770d7db3d512422bd4"));
+        assert(genesis.hashMerkleRoot == uint256("0xc04be9573c5cb675b2a7f463a4ee74a68663b121e7115ae7b012ffcf22d7fac2"));
 
-          hashGenesisBlock = genesis.GetHash();
-          assert(hashGenesisBlock == uint256("0x00000040cc36d5f0dc9054d8b002f1bf1a1fbd1ca48065770d7db3d512422bd4"));
-          assert(genesis.hashMerkleRoot == uint256("0xc04be9573c5cb675b2a7f463a4ee74a68663b121e7115ae7b012ffcf22d7fac2"));
+        vSeeds.push_back(CDNSSeedData("Official Node", "216.144.230.95"));
 
-        vSeeds.push_back(CDNSSeedData("BlakeStar", "213.169.33.11"));
-
-        /** DEPRICATED IN QT 5.6+ (To compile on Qt5.5.1 and lower uncomment  */
-        /*
-        base58Prefixes[PUBKEY_ADDRESS] = list_of(26);
-        base58Prefixes[SCRIPT_ADDRESS] = list_of(5);
-        base58Prefixes[SECRET_KEY] =     list_of(154);
-        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x81)(0xDA)(0xAE);
-        base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x82)(0xA1)(0xA4);
-        */
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,26);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,154);
@@ -156,39 +126,10 @@ public:
         genesis.nBits  = bnProofOfWorkLimit.GetCompact();
         genesis.nTime    = 1494310000;
         genesis.nNonce = 259;
-	
-	//hashGenesisBlock == uint256("0x01");
-        hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x000b2db7442cdf4840e9a99d1c59dc535e5ca00e353fefa61bd8794201fe52f2"));
-        if (true && (genesis.GetHash() != hashGenesisBlock))
-        {
-            uint256 hashTarget = CBigNum().SetCompact(genesis.nBits).getuint256();
-            while (genesis.GetHash() > hashTarget)
-            {
-                ++genesis.nNonce;
-                if (genesis.nNonce == 0)
-                {
-                    printf("NONCE WRAPPED, incrementing time");
-                    ++genesis.nTime;
-                }
-            }
-            cout << "testnet.genesis : \n" << genesis.ToString() << endl;
-            cout << "testnet.genesis.GetHash(): " << genesis.GetHash().ToString() << endl;
-            cout << "testnet.genesis.hashMerkleRoot: " << genesis.hashMerkleRoot.ToString() << endl;
-            cout << "testnet.genesis.nTime: " << genesis.nTime << endl;
-            cout << "testnet.genesis.nNonce: " << genesis.nNonce << endl;
-        }
+        
         vFixedSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("BlakeStar.pw", "test1.BlakeStar.pw"));
+        vSeeds.push_back(CDNSSeedData("BlakeStar", "216.144.230.95"));
 
-        /** DEPRICATED IN QT 5.6+ (To compile on Qt5.5.1 and lower uncomment  */
-        /*
-        base58Prefixes[PUBKEY_ADDRESS] = list_of(111);
-        base58Prefixes[SCRIPT_ADDRESS] = list_of(196);
-        base58Prefixes[SECRET_KEY]     = list_of(239);
-        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x35)(0x87)(0xCF);
-        base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x35)(0x83)(0x94);
-        */
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
