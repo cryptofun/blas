@@ -1051,6 +1051,9 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
     const CBlockIndex* pindexPrevPrev = GetLastBlockIndex(pindexPrev->pprev, fProofOfStake);
     if (pindexPrevPrev->pprev == NULL)
         return bnTargetLimit.GetCompact(); // second block
+        
+    if (pindexLast->nHeight == 150000)
+        return bnTargetLimit.GetCompact(); // Chain Jump
 
     int64_t nTargetSpacing = GetTargetSpacing(pindexLast->nHeight);
     int64_t nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime();
@@ -2053,8 +2056,8 @@ bool CBlock::AcceptBlock()
     else if (!IsBlakeStarV2(nHeight) && nVersion > 7)
         return DoS(100, error("AcceptBlock() : reject too new nVersion = %d", nVersion));
 
-    if (IsProofOfWork() && nHeight > Params().LastPOWBlock())
-        return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
+    //if (IsProofOfWork() && nHeight > Params().LastPOWBlock())
+    //    return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
 
     // Check coinbase timestamp
     if(IsProtocolV0(nHeight))

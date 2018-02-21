@@ -55,7 +55,6 @@ static const int64_t COIN_YEAR_REWARD2 = 200 * CENT;
 /** Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp. */
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 
-
 inline bool IsProtocolV0(int nHeight) { return TestNet() || nHeight >= 0; } 
 
 inline int64_t FutureDriftV0(int64_t nTime, int nHeight) { return nTime + 10 * 60; }
