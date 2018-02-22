@@ -121,8 +121,8 @@ contains(USE_DBUS, 1) {
     QT += dbus
 }
 
-contains(ESPERS_NEED_QT_PLUGINS, 1) {
-    DEFINES += ESPERS_NEED_QT_PLUGINS
+contains(BITCOIN_NEED_QT_PLUGINS, 1) {
+    DEFINES += BITCOIN_NEED_QT_PLUGINS
     QTPLUGIN += qcncodecs qjpcodecs qtwcodecs qkrcodecs qtaccessiblewidgets
 }
 
